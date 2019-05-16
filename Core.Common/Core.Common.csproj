@@ -6,6 +6,7 @@
     <Description>Lobster平台的Web核心库</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Lobster.Core.Common</PackageId>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

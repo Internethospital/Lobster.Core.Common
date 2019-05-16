@@ -66,6 +66,34 @@ namespace Core.Common.Helper
 
         /// <summary>
         /// Generic Post method
+        /// <param name="request">Restsharp request object</param> 
+        /// <param name="userName">BrowserStack User Name</param>
+        /// <param name="accessKey">BrowserStack Access Key</param>
+        /// </summary>
+        public static T ExecutePost<T>(string serviceName, RestRequest request, string userName = "default", string accessKey = "default") where T : class, new()
+        {
+            var restClient = new RestClient(ConfigHelper.GetSetting("ConnectionStrings:" + serviceName).ToString())
+            {
+                Authenticator = new HttpBasicAuthenticator(userName, accessKey)
+            };
+
+            request.Method = Method.POST;
+
+            request.AddHeader("Content-Type", "application/json");
+
+            var response = restClient.Execute<T>(request);
+
+            if (response.ErrorException != null)
+            {
+                const string message = "Error retrieving response.  Check inner details for more info.";
+                var browserStackException = new ApplicationException(message, response.ErrorException);
+                throw browserStackException;
+            }
+            return response.Data;
+        }
+
+        /// <summary>
+        /// Generic Post method
         /// <param name="request">Restsharp request object</param>
         /// <param name="userName">BrowserStack User Name</param>
         /// <param name="accessKey">BrowserStack Access Key</param>
@@ -91,7 +119,6 @@ namespace Core.Common.Helper
             }
             return response.Data;
         }
-
 
         /// <summary>
         /// 模拟请求API接口

@@ -1005,6 +1005,14 @@
             <param name="accessKey">BrowserStack Access Key</param>
             </summary>
         </member>
+        <member name="M:Core.Common.Helper.RestHelper.ExecutePost``1(System.String,RestSharp.RestRequest,System.String,System.String)">
+            <summary>
+            Generic Post method
+            <param name="request">Restsharp request object</param> 
+            <param name="userName">BrowserStack User Name</param>
+            <param name="accessKey">BrowserStack Access Key</param>
+            </summary>
+        </member>
         <member name="M:Core.Common.Helper.RestHelper.ExecuteGet``1(System.String,RestSharp.RestRequest,System.String,System.String)">
             <summary>
             Generic Post method
