@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -55,6 +56,7 @@ namespace Core.Common.Data
             {
                 JsonSerializerSettings set = new JsonSerializerSettings();
                 set.NullValueHandling = NullValueHandling.Ignore;
+                set.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                 data.Add(key, JsonConvert.SerializeObject(item, set));
             }
         }
@@ -67,7 +69,7 @@ namespace Core.Common.Data
         public T GetData<T>(string key)
         {
             if (!data.ContainsKey(key))
-                throw new Exception("不存在key");
+                throw new Exception("无数据");
             if (typeof(T).Equals(typeof(String)) || typeof(T).Equals(typeof(int)) || typeof(T).Equals(typeof(decimal)))
             {
                 return (T)((object)data[key]);

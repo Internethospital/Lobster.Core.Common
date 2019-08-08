@@ -6,7 +6,9 @@
     <Description>Lobster平台的Web核心库</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Lobster.Core.Common</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
+    <Product>Lobster.Core.Common</Product>
+    <AssemblyName>Lobster.Core.Common</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,6 +34,7 @@
     <PackageReference Include="NLog" Version="4.5.11" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.0" />
     <PackageReference Include="NodaTime" Version="2.4.5" />
+    <PackageReference Include="Npgsql" Version="4.0.7" />
     <PackageReference Include="NPOI" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
     <PackageReference Include="OrientDB.NETStandard-1.5" Version="0.1.13" />

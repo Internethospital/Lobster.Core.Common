@@ -10,6 +10,10 @@ namespace Core.Common.Helper
     public interface IOrientDbHelper
     {
         /// <summary>
+        /// 数据库服务
+        /// </summary>
+        OServer server { get; set; }
+        /// <summary>
         /// 数据库连接
         /// </summary>
         ODatabase odatabase { get; set; }
@@ -21,16 +25,24 @@ namespace Core.Common.Helper
     /// <summary>
     /// 实现类
     /// </summary>
-    public class OrientDbHelper: IOrientDbHelper
+    public class OrientDbHelper : IOrientDbHelper
     {
         /// <summary>
         /// 构造方法
         /// </summary>
         public OrientDbHelper()
         {
-            _odatabase = new ODatabase("127.0.0.1", 2424, "xxx", ODatabaseType.Document, "root", "root");
-        }
+            _server = new OServer(ConfigHelper.GetSetting("ConnectionStrings:OrientDBServer").ToString(),
+                 int.Parse(ConfigHelper.GetSetting("ConnectionStrings:OrientDBPort").ToString()),
+                 ConfigHelper.GetSetting("ConnectionStrings:OrientDBUsername").ToString(),
+                 ConfigHelper.GetSetting("ConnectionStrings:OrientDBPassword").ToString());
 
+            _odatabase = new ODatabase(ConfigHelper.GetSetting("ConnectionStrings:OrientDBServer").ToString(),
+                int.Parse(ConfigHelper.GetSetting("ConnectionStrings:OrientDBPort").ToString()),
+                ConfigHelper.GetSetting("ConnectionStrings:OrientDBDefaultDB").ToString(), ODatabaseType.Graph,
+                ConfigHelper.GetSetting("ConnectionStrings:OrientDBUsername").ToString(),
+                ConfigHelper.GetSetting("ConnectionStrings:OrientDBPassword").ToString());
+        }
         private ODatabase _odatabase = null;           //数据库连接
         /// <summary>
         /// 数据库连接
@@ -44,6 +56,21 @@ namespace Core.Common.Helper
             set
             {
                 _odatabase = value;
+            }
+        }
+        private OServer _server = null;           //数据库服务
+        /// <summary>
+        /// 数据库服务
+        /// </summary>
+        public OServer server
+        {
+            get
+            {
+                return _server;
+            }
+            set
+            {
+                _server = value;
             }
         }
         private OTransaction _transaction = null;            //数据库事务

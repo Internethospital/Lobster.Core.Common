@@ -312,7 +312,7 @@ namespace Core.Common.Helper
         {
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] result = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(this.inputString));
-            this.outString = System.Text.Encoding.Default.GetString(result);
+            this.outString = BitConverter.ToString(result).Replace("-", "");
         }
         #endregion
 

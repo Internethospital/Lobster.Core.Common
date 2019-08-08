@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,13 +18,18 @@ namespace Core.Common.CoreFrame
 
         public   string ToJson(DataTable dt)
         {
-            string json = JsonConvert.SerializeObject(dt);
+            IsoDateTimeConverter timeConverter = new IsoDateTimeConverter
+            { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" };
+            string json = JsonConvert.SerializeObject(dt, Formatting.Indented, timeConverter);
+
             return json;
         }
 
         public   string ToJson(object model)
         {
-            string json = JsonConvert.SerializeObject(model);
+            IsoDateTimeConverter timeConverter = new IsoDateTimeConverter
+            { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" };  
+            string json = JsonConvert.SerializeObject(model, Formatting.Indented, timeConverter);
             return json;
         }
 

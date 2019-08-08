@@ -1,9 +1,42 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Core.Common</name>
+        <name>Lobster.Core.Common</name>
     </assembly>
     <members>
+        <member name="T:Core.Common.Algorithm.AlgorithmComparison">
+            <summary>
+            算法比价
+            </summary>
+        </member>
+        <member name="M:Core.Common.Algorithm.AlgorithmComparison.distance(System.String,System.String)">
+            <summary>
+            Returns the Jaro-Winkler distance between the specified  
+            strings. The distance is symmetric and will fall in the 
+            range 0 (perfect match) to 1 (no match). 
+            </summary>
+            <param name="aString1">First String</param>
+            <param name="aString2">Second String</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Algorithm.AlgorithmComparison.JaroWinkler(System.String,System.String)">
+            <summary>
+            Returns the Jaro-Winkler distance between the specified  
+            strings. The distance is symmetric and will fall in the 
+            range 0 (no match) to 1 (perfect match). 
+            </summary>
+            <param name="aString1">First String</param>
+            <param name="aString2">Second String</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Algorithm.AlgorithmComparison.Exact(System.String,System.String)">
+            <summary>
+            全等于算法
+            </summary>
+            <param name="aString1"></param>
+            <param name="aString2"></param>
+            <returns></returns>
+        </member>
         <member name="T:Core.Common.CoreFrame.AbstractCoreFrame">
             <summary>
             核心框架基类
@@ -53,12 +86,7 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="T:Core.Common.CoreFrame.AbstractDao">
-            <summary>
-            数据库操作基类
-            </summary>
-        </member>
-        <member name="M:Core.Common.CoreFrame.AbstractDao.GetModel``1(System.Int32)">
+        <member name="M:Core.Common.CoreFrame.AbstractCoreFrame.GetModel``1(System.Int32)">
             <summary>
             根据主键获取实体
             </summary>
@@ -66,7 +94,7 @@
             <param name="id">主键ID</param>
             <returns></returns>
         </member>
-        <member name="M:Core.Common.CoreFrame.AbstractDao.Save``1(``0)">
+        <member name="M:Core.Common.CoreFrame.AbstractCoreFrame.Save``1(``0)">
             <summary>
             保存更新实体
             </summary>
@@ -74,7 +102,7 @@
             <param name="obj">实体对象</param>
             <returns></returns>
         </member>
-        <member name="M:Core.Common.CoreFrame.AbstractDao.Delete``1(System.Int32)">
+        <member name="M:Core.Common.CoreFrame.AbstractCoreFrame.Delete``1(System.Int32)">
             <summary>
             删除实体对象
             </summary>
@@ -82,7 +110,7 @@
             <param name="id">主键ID</param>
             <returns></returns>
         </member>
-        <member name="M:Core.Common.CoreFrame.AbstractDao.GetList``1(System.String)">
+        <member name="M:Core.Common.CoreFrame.AbstractCoreFrame.GetList``1(System.String)">
             <summary>
             根据条件查询实体列表
             </summary>
@@ -90,7 +118,7 @@
             <param name="where">查询条件</param>
             <returns></returns>
         </member>
-        <member name="M:Core.Common.CoreFrame.AbstractDao.GetTableName(System.Object)">
+        <member name="M:Core.Common.CoreFrame.AbstractCoreFrame.GetTableName(System.Object)">
             <summary>
             获取表名
             默认使用类名和覆盖，如果类有一个Table属性
@@ -98,7 +126,7 @@
             <param name="entity"></param>
             <returns></returns>
         </member>
-        <member name="M:Core.Common.CoreFrame.AbstractDao.GetTableName(System.Type)">
+        <member name="M:Core.Common.CoreFrame.AbstractCoreFrame.GetTableName(System.Type)">
             <summary>
             获取表名
             默认使用类名和覆盖，如果类有一个Table属性
@@ -106,7 +134,7 @@
             <param name="type"></param>
             <returns></returns>
         </member>
-        <member name="M:Core.Common.CoreFrame.AbstractDao.GetKeyValue``1(``0)">
+        <member name="M:Core.Common.CoreFrame.AbstractCoreFrame.GetKeyValue``1(``0)">
             <summary>
             获取实体类中主键的值
             </summary>
@@ -114,7 +142,7 @@
             <param name="obj"></param>
             <returns></returns>
         </member>
-        <member name="M:Core.Common.CoreFrame.AbstractDao.GetIdProperties(System.Object)">
+        <member name="M:Core.Common.CoreFrame.AbstractCoreFrame.GetIdProperties(System.Object)">
             <summary>
             获取被命名ID的或Key特性的所有属性
             为了插入和更新
@@ -122,12 +150,17 @@
             <param name="entity">实体</param>
             <returns></returns>
         </member>
-        <member name="M:Core.Common.CoreFrame.AbstractDao.GetIdProperties(System.Type)">
+        <member name="M:Core.Common.CoreFrame.AbstractCoreFrame.GetIdProperties(System.Type)">
             <summary>
             获取被命名ID的或Key特性的所有属性
             </summary>
             <param name="type">实体类型</param>
             <returns></returns>
+        </member>
+        <member name="T:Core.Common.CoreFrame.AbstractDao">
+            <summary>
+            数据库操作基类
+            </summary>
         </member>
         <member name="T:Core.Common.CoreFrame.ActionCoreFrame">
             <summary>
@@ -927,9 +960,52 @@
             日志处理类
             </summary>
         </member>
+        <member name="M:Core.Common.Helper.NpgsqlHelper.GetSqlConnectionString">
+            <summary>
+            获取连接字符串
+            </summary>
+            <returns>连接字符串</returns>
+        </member>
+        <member name="M:Core.Common.Helper.NpgsqlHelper.ExecuteNonQuery(System.String)">
+            <summary>
+            封装一个执行的sql 返回受影响的行数
+            </summary>
+            <param name="sqlText">执行的sql脚本</param>
+            <param name="parameters">参数集合</param>
+            <returns>受影响的行数</returns>
+        </member>
+        <member name="M:Core.Common.Helper.NpgsqlHelper.ExecuteScalar(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            执行sql，返回查询结果中的第一行第一列的值
+            </summary>
+            <param name="sqlText">执行的sql脚本</param>
+            <param name="parameters">参数集合</param>
+            <returns>查询结果中的第一行第一列的值</returns>
+        </member>
+        <member name="M:Core.Common.Helper.NpgsqlHelper.ExecuteDataTable(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            执行sql 返回一个DataTable
+            </summary>
+            <param name="sqlText">执行的sql脚本</param>
+            <param name="parameters">参数集合</param>
+            <returns>返回一个DataTable</returns>
+        </member>
+        <member name="M:Core.Common.Helper.NpgsqlHelper.ExecuteReader(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            执行sql脚本
+            </summary>
+            <param name="sqlText">执行的sql脚本</param>
+            <param name="parameters">参数集合</param>
+            <returns>返回一个SqlDataReader</returns>
+        </member>
         <member name="T:Core.Common.Helper.IOrientDbHelper">
             <summary>
             接口
+            </summary>
+        </member>
+        <member name="P:Core.Common.Helper.IOrientDbHelper.server">
+            <summary>
+            数据库服务
             </summary>
         </member>
         <member name="P:Core.Common.Helper.IOrientDbHelper.odatabase">
@@ -955,6 +1031,11 @@
         <member name="P:Core.Common.Helper.OrientDbHelper.odatabase">
             <summary>
             数据库连接
+            </summary>
+        </member>
+        <member name="P:Core.Common.Helper.OrientDbHelper.server">
+            <summary>
+            数据库服务
             </summary>
         </member>
         <member name="P:Core.Common.Helper.OrientDbHelper.transaction">
@@ -996,38 +1077,49 @@
             RestHelper帮助类
             </summary>
         </member>
-        <member name="M:Core.Common.Helper.RestHelper.ExecutePost``2(System.String,RestSharp.RestRequest,``1,System.String,System.String)">
+        <member name="M:Core.Common.Helper.RestHelper.ExecutePost``1(System.String,RestSharp.RestRequest,System.String,System.String)">
             <summary>
-            Generic Post method
-            <param name="request">Restsharp request object</param> 
-            <param name="obj">Object that you want to serialize</param>
+            执行Post请求
+            <param name="serviceName">服务名称</param>
+            <param name="request">Rest请求对象</param> 
             <param name="userName">BrowserStack User Name</param>
             <param name="accessKey">BrowserStack Access Key</param>
             </summary>
         </member>
-        <member name="M:Core.Common.Helper.RestHelper.ExecutePost``1(System.String,RestSharp.RestRequest,System.String,System.String)">
+        <member name="M:Core.Common.Helper.RestHelper.ExecutePostAsync(System.String,RestSharp.RestRequest,System.String,System.String)">
             <summary>
-            Generic Post method
-            <param name="request">Restsharp request object</param> 
-            <param name="userName">BrowserStack User Name</param>
-            <param name="accessKey">BrowserStack Access Key</param>
+            异步执行Post请求
             </summary>
+            <param name="serviceName">服务名称</param>
+            <param name="request"></param>
+            <param name="userName"></param>
+            <param name="accessKey"></param>
+            <returns></returns>
         </member>
         <member name="M:Core.Common.Helper.RestHelper.ExecuteGet``1(System.String,RestSharp.RestRequest,System.String,System.String)">
             <summary>
-            Generic Post method
-            <param name="request">Restsharp request object</param>
+            执行Get请求
+            <param name="serviceName">服务名称</param>
+            <param name="request">Rest请求对象</param>
             <param name="userName">BrowserStack User Name</param>
             <param name="accessKey">BrowserStack Access Key</param>
             </summary>
         </member>
-        <member name="M:Core.Common.Helper.RestHelper.GetResponseData(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Object},RestSharp.Method)">
+        <member name="M:Core.Common.Helper.RestHelper.ExecuteGetAsync(System.String,RestSharp.RestRequest,System.String,System.String)">
             <summary>
-            模拟请求API接口
+            异步执行Get请求
             </summary>
-            <param name="url">API接口地址</param>
-            <param name="dic">字典类型入参</param>
-            <param name="method">请求类型：GET/POST</param>
+            <param name="serviceName">服务名称</param>
+            <param name="request"></param>
+            <param name="userName"></param>
+            <param name="accessKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.RestHelper.GetBaseUrl(System.String)">
+            <summary>
+            根据服务名获取服务地址
+            </summary>
+            <param name="serviceName">服务名称</param>
             <returns></returns>
         </member>
         <member name="T:Core.Common.Helper.SpellAndWbCode">
