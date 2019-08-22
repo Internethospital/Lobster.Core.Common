@@ -16,6 +16,62 @@ namespace Core.Common.Helper
     public class RestHelper
     {
         /// <summary>
+        /// 执行请求
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="userName"></param>
+        /// <param name="accessKey"></param>
+        /// <returns></returns>
+        public static Response Execute(RestRequest request, string userName = "default", string accessKey = "default")
+        {
+            var restClient = new RestClient(GetBaseUrl("ApiGateway"))
+            {
+                Authenticator = new HttpBasicAuthenticator(userName, accessKey)
+            };
+
+            //request.Method = Method.POST;
+
+            request.AddHeader("Content-Type", "application/json");
+
+            var response = restClient.Execute<Response>(request);
+
+            if (response.ErrorException != null)
+            {
+                const string message = "Error retrieving response.  Check inner details for more info.";
+                var browserStackException = new ApplicationException(message, response.ErrorException);
+                throw browserStackException;
+            }
+            return response.Data;
+        }
+        /// <summary>
+        /// 异步执行请求
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="userName"></param>
+        /// <param name="accessKey"></param>
+        /// <returns></returns>
+        public static Task<IRestResponse> ExecuteAsync(RestRequest request, string userName = "default", string accessKey = "default")
+        {
+            var restClient = new RestClient(GetBaseUrl("ApiGateway"))
+            {
+                Authenticator = new HttpBasicAuthenticator(userName, accessKey)
+            };
+
+            //request.Method = Method.POST;
+
+            request.AddHeader("Content-Type", "application/json");
+
+
+            var tcs = new TaskCompletionSource<IRestResponse>();
+            var rrah = restClient.ExecuteAsync(request, response =>
+            {
+                tcs.SetResult(response);
+            });
+
+            return tcs.Task;
+        }
+
+        /// <summary>
         /// 执行Post请求
         /// <param name="serviceName">服务名称</param>
         /// <param name="request">Rest请求对象</param> 
@@ -65,7 +121,8 @@ namespace Core.Common.Helper
 
 
             var tcs = new TaskCompletionSource<IRestResponse>();
-            var rrah = restClient.ExecuteAsync(request, response => {
+            var rrah = restClient.ExecuteAsync(request, response =>
+            {
                 tcs.SetResult(response);
             });
 
@@ -122,7 +179,8 @@ namespace Core.Common.Helper
             request.AddHeader("Content-Type", "application/json");
 
             var tcs = new TaskCompletionSource<IRestResponse>();
-            var rrah = restClient.ExecuteAsync(request, response => {
+            var rrah = restClient.ExecuteAsync(request, response =>
+            {
                 tcs.SetResult(response);
             });
 
