@@ -4,50 +4,22 @@
         <name>Lobster.Core.Common</name>
     </assembly>
     <members>
-        <member name="T:Core.Common.Algorithm.AlgorithmComparison">
-            <summary>
-            算法比价
-            </summary>
-        </member>
-        <member name="M:Core.Common.Algorithm.AlgorithmComparison.distance(System.String,System.String)">
-            <summary>
-            Returns the Jaro-Winkler distance between the specified  
-            strings. The distance is symmetric and will fall in the 
-            range 0 (perfect match) to 1 (no match). 
-            </summary>
-            <param name="aString1">First String</param>
-            <param name="aString2">Second String</param>
-            <returns></returns>
-        </member>
-        <member name="M:Core.Common.Algorithm.AlgorithmComparison.JaroWinkler(System.String,System.String)">
-            <summary>
-            Returns the Jaro-Winkler distance between the specified  
-            strings. The distance is symmetric and will fall in the 
-            range 0 (no match) to 1 (perfect match). 
-            </summary>
-            <param name="aString1">First String</param>
-            <param name="aString2">Second String</param>
-            <returns></returns>
-        </member>
-        <member name="M:Core.Common.Algorithm.AlgorithmComparison.Exact(System.String,System.String)">
-            <summary>
-            全等于算法
-            </summary>
-            <param name="aString1"></param>
-            <param name="aString2"></param>
-            <returns></returns>
-        </member>
         <member name="T:Core.Common.CoreFrame.AbstractCoreFrame">
             <summary>
             核心框架基类
             </summary>
         </member>
-        <member name="F:Core.Common.CoreFrame.AbstractCoreFrame.connection">
+        <member name="P:Core.Common.CoreFrame.AbstractCoreFrame.LoginUserInfo">
+            <summary>
+            登录用户信息
+            </summary>
+        </member>
+        <member name="P:Core.Common.CoreFrame.AbstractCoreFrame.connection">
             <summary>
             数据库连接
             </summary>
         </member>
-        <member name="F:Core.Common.CoreFrame.AbstractCoreFrame.transaction">
+        <member name="P:Core.Common.CoreFrame.AbstractCoreFrame.transaction">
             <summary>
             数据库事务
             </summary>
@@ -162,18 +134,35 @@
             数据库操作基类
             </summary>
         </member>
-        <member name="T:Core.Common.CoreFrame.ActionCoreFrame">
+        <member name="T:Core.Common.CoreFrame.AbstractModel">
             <summary>
-            
+            表模型
             </summary>
         </member>
-        <member name="M:Core.Common.CoreFrame.ActionCoreFrame.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+        <member name="T:Core.Common.CoreFrame.ActionApiController">
+            <summary>
+            拦截继承ApiController的控制器
+            </summary>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ActionApiController.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
             <summary>
             在Action方法调用前
             </summary>
             <param name="context"></param>
         </member>
-        <member name="M:Core.Common.CoreFrame.ActionCoreFrame.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+        <member name="M:Core.Common.CoreFrame.ActionApiController.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+             在Action方法调用后
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ActionWebController.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            在Action方法调用前
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ActionWebController.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
             <summary>
              在Action方法调用后
             </summary>
@@ -182,6 +171,11 @@
         <member name="T:Core.Common.CoreFrame.ApiControllerBase">
             <summary>
             自定义API基类
+            </summary>
+        </member>
+        <member name="P:Core.Common.CoreFrame.ApiControllerBase.LoginUserInfo">
+            <summary>
+            登录用户信息
             </summary>
         </member>
         <member name="P:Core.Common.CoreFrame.ApiControllerBase.connection">
@@ -228,6 +222,77 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
+        <member name="M:Core.Common.CoreFrame.ApiControllerBase.GetModel``1(System.Int32)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id">主键ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ApiControllerBase.Save``1(``0)">
+            <summary>
+            保存更新实体
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj">实体对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ApiControllerBase.Delete``1(System.Int32)">
+            <summary>
+            删除实体对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id">主键ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ApiControllerBase.GetList``1(System.String)">
+            <summary>
+            根据条件查询实体列表
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="where">查询条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ApiControllerBase.GetTableName(System.Object)">
+            <summary>
+            获取表名
+            默认使用类名和覆盖，如果类有一个Table属性
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ApiControllerBase.GetTableName(System.Type)">
+            <summary>
+            获取表名
+            默认使用类名和覆盖，如果类有一个Table属性
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ApiControllerBase.GetKeyValue``1(``0)">
+            <summary>
+            获取实体类中主键的值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ApiControllerBase.GetIdProperties(System.Object)">
+            <summary>
+            获取被命名ID的或Key特性的所有属性
+            为了插入和更新
+            </summary>
+            <param name="entity">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.CoreFrame.ApiControllerBase.GetIdProperties(System.Type)">
+            <summary>
+            获取被命名ID的或Key特性的所有属性
+            </summary>
+            <param name="type">实体类型</param>
+            <returns></returns>
+        </member>
         <member name="T:Core.Common.CoreFrame.HiddenApiAttribute">
             <summary>
             隐藏接口，不生成到swagger文档展示
@@ -245,54 +310,50 @@
             <param name="swaggerDoc"></param>
             <param name="context"></param>
         </member>
+        <member name="T:Core.Common.CoreFrame.SysLoginRight">
+            <summary>
+            登录信息
+            </summary>
+        </member>
+        <member name="P:Core.Common.CoreFrame.SysLoginRight.UserName">
+            <summary>
+            登录用户名称
+            </summary>
+        </member>
+        <member name="P:Core.Common.CoreFrame.SysLoginRight.EmpName">
+            <summary>
+            当前人员名称
+            </summary>
+        </member>
+        <member name="P:Core.Common.CoreFrame.SysLoginRight.DeptName">
+            <summary>
+            当前登录科室
+            </summary>
+        </member>
+        <member name="P:Core.Common.CoreFrame.SysLoginRight.WorkName">
+            <summary>
+            当前机构
+            </summary>
+        </member>
+        <member name="P:Core.Common.CoreFrame.SysLoginRight.IsAdmin">
+            <summary>
+            是否管理员 0普通用户 1机构管理员 2超级管理员
+            </summary>
+        </member>
+        <member name="F:Core.Common.CoreFrame.SysLoginRight._token">
+            <summary>
+            token
+            </summary>
+        </member>
         <member name="T:Core.Common.CoreFrame.WebControllerBase">
             <summary>
             自定义Web基类
             </summary>
         </member>
-        <member name="P:Core.Common.CoreFrame.WebControllerBase.connection">
+        <member name="P:Core.Common.CoreFrame.WebControllerBase.LoginUserInfo">
             <summary>
-            数据库连接
+            登录用户信息
             </summary>
-        </member>
-        <member name="P:Core.Common.CoreFrame.WebControllerBase.transaction">
-            <summary>
-            数据库事务
-            </summary>
-        </member>
-        <member name="F:Core.Common.CoreFrame.WebControllerBase.IsTransaction">
-            <summary>
-            是否处于事务中
-            </summary>
-        </member>
-        <member name="M:Core.Common.CoreFrame.WebControllerBase.BeginTransaction">
-            <summary>
-            启动一个事务
-            </summary>
-        </member>
-        <member name="M:Core.Common.CoreFrame.WebControllerBase.CommitTransaction">
-            <summary>
-            提交一个事务
-            </summary>
-        </member>
-        <member name="M:Core.Common.CoreFrame.WebControllerBase.RollbackTransaction">
-            <summary>
-            回滚一个事务
-            </summary>
-        </member>
-        <member name="M:Core.Common.CoreFrame.WebControllerBase.NewObject``1">
-            <summary>
-            创建Object对象
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Core.Common.CoreFrame.WebControllerBase.NewDao``1">
-            <summary>
-            创建Dao对象
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
         </member>
         <member name="T:Core.Common.Data.PageInfo">
             <summary>
@@ -500,6 +561,35 @@
             创建Dao对象
             </summary>
             <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.Base64Utility.IsBase64(System.String)">
+            <summary>
+            是否base64字符串
+            </summary>
+            <param name="base64Str">要判断的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.Base64Utility.IsBase64(System.String,System.Byte[]@)">
+            <summary>
+            是否base64字符串
+            </summary>
+            <param name="base64Str">要判断的字符串</param>
+            <param name="bytes">字符串转换成的字节数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.Base64Utility.Base64ToBitmap(System.String)">
+            <summary>
+            把base64字符串转换成Bitmap
+            </summary>
+            <param name="base64Str">要转换的base64字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.Base64Utility.GetSuffixFromBase64Str(System.String)">
+            <summary>
+            根据base64字符串获取文件后缀（图片格式）
+            </summary>
+            <param name="base64Str">base64</param>
             <returns></returns>
         </member>
         <member name="M:Core.Common.Helper.ConfigHelper.GetSetting(System.String)">
@@ -960,6 +1050,69 @@
             日志处理类
             </summary>
         </member>
+        <member name="T:Core.Common.Helper.MongoHelper`1">
+            <summary>
+            MongoDB操作类
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.SetCollection">
+            <summary>
+            设置你的collection
+            </summary>
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.Find(System.String)">
+            <summary>
+            查找
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.FindAll(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            查询
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.FindAll">
+            <summary>
+            查询全部
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.Count">
+            <summary>
+            记录条数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.Update(System.String,System.String,System.Object)">
+            <summary>
+            修改
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.Insert(`0)">
+            <summary>
+            添加
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.Delete(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.StreamToBytes(System.IO.Stream)">
+            将 Stream 转成 byte[]
+        </member>
+        <member name="M:Core.Common.Helper.MongoHelper`1.BytesToStream(System.Byte[])">
+            将 byte[] 转成 Stream
+        </member>
         <member name="M:Core.Common.Helper.NpgsqlHelper.GetSqlConnectionString">
             <summary>
             获取连接字符串
@@ -1043,6 +1196,13 @@
             数据库事务
             </summary>
         </member>
+        <member name="M:Core.Common.Helper.ParamHelper.GetSystemConfigParam(System.Int32,System.String)">
+            <summary>
+            获取系统参数
+            </summary>
+            <param name="systemConfig">参数实体</param>
+            <returns></returns>
+        </member>
         <member name="M:Core.Common.Helper.RedisHelper.SetValue(System.String,System.String)">
             <summary>
             增加/修改
@@ -1076,6 +1236,25 @@
             <summary>
             RestHelper帮助类
             </summary>
+        </member>
+        <member name="M:Core.Common.Helper.RestHelper.Execute(RestSharp.RestRequest,Core.Common.CoreFrame.SysLoginRight,System.String,System.String)">
+            <summary>
+            执行请求
+            </summary>
+            <param name="request"></param>
+            <param name="login"></param>
+            <param name="userName"></param>
+            <param name="accessKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Core.Common.Helper.RestHelper.ExecuteAsync(RestSharp.RestRequest,System.String,System.String)">
+            <summary>
+            异步执行请求
+            </summary>
+            <param name="request"></param>
+            <param name="userName"></param>
+            <param name="accessKey"></param>
+            <returns></returns>
         </member>
         <member name="M:Core.Common.Helper.RestHelper.ExecutePost``1(System.String,RestSharp.RestRequest,System.String,System.String)">
             <summary>
@@ -1392,6 +1571,18 @@
             <param name="sign">验证(选填参数)</param>
             <param name="extend">扩展(选填参数)</param>
             <param name="ext">说明(选填参数)</param>
+            <returns></returns>
+        </member>
+        <member name="F:Core.Common.ServiceStartup.provider">
+            <summary>
+            Api版本提者信息
+            </summary>
+        </member>
+        <member name="M:Core.Common.ServiceStartup.ValidatePermission(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            JWT验证身份
+            </summary>
+            <param name="httpContext"></param>
             <returns></returns>
         </member>
         <member name="T:Core.Common.Weixin.WeixinMsg">

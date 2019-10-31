@@ -19,14 +19,56 @@ namespace Core.Common.CoreFrame
             return this.MemberwiseClone();
         }
 
+        private SysLoginRight _LoginUserInfo;
+        /// <summary>
+        /// 登录用户信息
+        /// </summary>
+        public SysLoginRight LoginUserInfo
+        {
+            get
+            {
+                if (_LoginUserInfo == null)
+                {
+                    return new SysLoginRight(1);
+                }
+                return _LoginUserInfo;
+            }
+            set
+            {
+                _LoginUserInfo = value;
+            }
+        }
+
+        private DbConnection _connection = null;//数据库连接
         /// <summary>
         /// 数据库连接
         /// </summary>
-        public DbConnection connection = null;           //数据库连接
+        public DbConnection connection
+        {
+            get
+            {
+                return _connection;
+            }
+            set
+            {
+                _connection = value;
+            }
+        }
+        private DbTransaction _transaction = null;            //数据库事务
         /// <summary>
         /// 数据库事务
         /// </summary>
-        public DbTransaction transaction = null;            //数据库事务
+        public DbTransaction transaction
+        {
+            get
+            {
+                return _transaction;
+            }
+            set
+            {
+                _transaction = value;
+            }
+        }
 
         /// <summary>
         /// 是否处于事务中
@@ -102,6 +144,7 @@ namespace Core.Common.CoreFrame
             {
                 (obj as AbstractCoreFrame).connection = connection;
                 (obj as AbstractCoreFrame).transaction = transaction;
+                (obj as AbstractCoreFrame).LoginUserInfo = LoginUserInfo;
             }
 
             return obj;
@@ -118,6 +161,7 @@ namespace Core.Common.CoreFrame
             {
                 (obj as AbstractCoreFrame).connection = connection;
                 (obj as AbstractCoreFrame).transaction = transaction;
+                (obj as AbstractCoreFrame).LoginUserInfo = LoginUserInfo;
             }
 
             return obj;
@@ -145,6 +189,9 @@ namespace Core.Common.CoreFrame
         {
             try
             {
+                //给实体WorkId属性赋值
+                SetWorkIdPropertyValue(obj, LoginUserInfo.WorkId);
+
                 string value = GetKeyValue<T>(obj);
                 if (string.IsNullOrEmpty(value))
                 {
@@ -301,6 +348,16 @@ namespace Core.Common.CoreFrame
                     .Where(p => p.GetCustomAttributes(true).Any(attr => attr.GetType().Name == "KeyAttribute"))
                     .ToList();
             return tp.Any() ? tp : type.GetProperties().Where(p => p.Name == "Id");
+        }
+
+        private static void SetWorkIdPropertyValue(Object obj, int WorkId)
+        {
+            Type type = obj.GetType();
+            PropertyInfo property = type.GetProperties().Where(p => p.Name == "WorkId").FirstOrDefault();
+            if (property != null)
+            {
+                property.SetValue(obj, WorkId);//给实体WorkId属性赋值
+            }
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using Core.Common.Data;
+﻿using Core.Common.CoreFrame;
+using Core.Common.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using RestSharp;
@@ -19,25 +20,28 @@ namespace Core.Common.Helper
         /// 执行请求
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="login"></param>
         /// <param name="userName"></param>
         /// <param name="accessKey"></param>
         /// <returns></returns>
-        public static Response Execute(RestRequest request, string userName = "default", string accessKey = "default")
+        public static Response Execute(RestRequest request, SysLoginRight login = null, string userName = "default", string accessKey = "default")
         {
             var restClient = new RestClient(GetBaseUrl("ApiGateway"))
             {
                 Authenticator = new HttpBasicAuthenticator(userName, accessKey)
             };
 
-            //request.Method = Method.POST;
-
             request.AddHeader("Content-Type", "application/json");
+            if (login != null)
+            {
+                request.AddHeader("SysLoginRight", System.Web.HttpUtility.UrlEncodeUnicode(JsonConvert.SerializeObject(login)));
+            }
 
             var response = restClient.Execute<Response>(request);
 
-            if (response.ErrorException != null)
+            if (response.IsSuccessful == false)
             {
-                const string message = "Error retrieving response.  Check inner details for more info.";
+                string message = "StatusCode:" + response.StatusCode.ToString() + " \r\nStatusDescription:" + response.StatusDescription;
                 var browserStackException = new ApplicationException(message, response.ErrorException);
                 throw browserStackException;
             }
@@ -87,6 +91,7 @@ namespace Core.Common.Helper
 
             request.Method = Method.POST;
 
+            //application/x-www-form-urlencoded; charset=UTF-8
             request.AddHeader("Content-Type", "application/json");
 
             var response = restClient.Execute<T>(request);
@@ -194,7 +199,7 @@ namespace Core.Common.Helper
         /// <returns></returns>
         private static string GetBaseUrl(string serviceName)
         {
-            return ConfigHelper.GetSetting("ConnectionStrings:" + serviceName).ToString();
+            return ConfigHelper.GetSetting("ServiceNodes:" + serviceName).ToString();
 
             //using (var consul = new Consul.ConsulClient(c =>
             //{
