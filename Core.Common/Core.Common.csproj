@@ -40,7 +40,7 @@
     <PackageReference Include="NodaTime" Version="2.4.5" />
     <PackageReference Include="Npgsql" Version="4.0.7" />
     <PackageReference Include="NPOI" Version="2.4.1" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.6" />
     <PackageReference Include="OrientDB.NETStandard-1.5" Version="0.1.13" />
     <PackageReference Include="qcloud.qcloudsms_csharp" Version="0.1.6" />
     <PackageReference Include="RestSharp" Version="106.6.9" />
